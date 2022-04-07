@@ -1,0 +1,19 @@
+{
+  "name": "fuel-rats-v3",
+  "packageManager": "yarn@3.2.0",
+  "private": true,
+  "scripts": {
+    "build": "yarn build:client && yarn build:server && yarn build:webview",
+    "build:client": "yarn workspace @fuelrats/client build",
+    "build:server": "yarn workspace @fuelrats/server build",
+    "build:webview": "yarn workspace @fuelrats/webview build"
+  },
+  "workspaces": [
+    "modules/*"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.14.34",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.3"
+  }
+}

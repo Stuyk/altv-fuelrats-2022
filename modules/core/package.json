@@ -1,0 +1,9 @@
+{
+    "name": "@fuelrats/core",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "src/index.ts",
+    "devDependencies": {
+        "@altv/types-shared": "^1.2.2"
+    }
+}

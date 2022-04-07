@@ -1,0 +1,21 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["esnext", "dom"],
+    "rootDir": "./src",
+    "typeRoots": ["../../node_modules/@types", "../../node_modules/@altv"]
+  },
+  "include": ["./src"],
+  "exclude": ["./src/**/*.test.*"]
+}

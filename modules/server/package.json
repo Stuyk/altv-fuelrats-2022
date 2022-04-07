@@ -1,0 +1,17 @@
+{
+    "name": "@fuelrats/server",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@fuelrats/core": "workspace:modules/core"
+    },
+    "devDependencies": {
+        "@altv/types-natives": "^1.4.4",
+        "@altv/types-server": "^2.2.9",
+        "@altv/types-shared": "^1.2.2"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "name": "@fuelrats/webview",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "src/index.ts",
+    "scripts": {
+        "dev": "vite --clearScreen=false --debug=false --logLevel=silent",
+        "build": "vite build"
+    },
+    "dependencies": {
+        "@fuelrats/core": "workspace:modules/core"
+    },
+    "devDependencies": {
+        "@types/vue": "^2.0.0",
+        "@vitejs/plugin-vue": "^2.3.1",
+        "vite": "^2.9.1",
+        "vue": "^3.2.31"
+    }
+}

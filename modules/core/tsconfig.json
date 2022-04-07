@@ -1,0 +1,9 @@
+{
+    "extends": "../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": "./src",
+        "typeRoots": ["../../node_modules/@types", "../../node_modules/@altv"]
+    },
+    "include": ["./src"],
+    "exclude": ["./src/**/*.test.*"]
+}

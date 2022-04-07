@@ -1,0 +1,17 @@
+{
+    "name": "@fuelrats/client",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@fuelrats/core": "workspace:modules/core"
+    },
+    "devDependencies": {
+        "@altv/types-client": "^2.1.2",
+        "@altv/types-natives": "^1.4.4",
+        "@altv/types-shared": "^1.2.2"
+    }
+}
