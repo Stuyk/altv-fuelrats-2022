@@ -1,0 +1,12 @@
+{
+    "name": "@fuelrats/configs",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "index.js",
+    "scripts": {
+        "copy": "node ./index.js"
+    },
+    "devDependencies": {
+        "fs-extra": "^10.0.1"
+    }
+}

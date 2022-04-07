@@ -2,7 +2,8 @@
     "extends": "../../config/tsconfig.base.json",
     "compilerOptions": {
         "rootDir": "./src",
-        "typeRoots": ["../../node_modules/@types", "../../node_modules/@altv"]
+        "typeRoots": ["../../node_modules/@types", "../../node_modules/@altv"],
+        "outDir": "../../resources/core/core"
     },
     "include": ["./src"],
     "exclude": ["./src/**/*.test.*"]

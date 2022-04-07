@@ -8,7 +8,7 @@
         "build": "vite build"
     },
     "dependencies": {
-        "@fuelrats/core": "workspace:modules/core"
+        "@fuelrats/core": "workspace:src/core"
     },
     "devDependencies": {
         "@types/vue": "^2.0.0",

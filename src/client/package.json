@@ -1,5 +1,5 @@
 {
-    "name": "@fuelrats/server",
+    "name": "@fuelrats/client",
     "packageManager": "yarn@3.2.0",
     "version": "0.0.0",
     "main": "src/main.ts",
@@ -7,11 +7,11 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@fuelrats/core": "workspace:modules/core"
+        "@fuelrats/core": "workspace:src/core"
     },
     "devDependencies": {
+        "@altv/types-client": "^2.1.2",
         "@altv/types-natives": "^1.4.4",
-        "@altv/types-server": "^2.2.9",
         "@altv/types-shared": "^1.2.2"
     }
 }

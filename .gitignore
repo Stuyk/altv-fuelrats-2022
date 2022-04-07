@@ -11,7 +11,16 @@
 #.pnp.*
 
 node_modules/*
-
-resources/core/**/*.js
-resources/core/**/*.d.ts
-resources/webview/*
+node_modules
+altv-server
+resources
+.vscode
+*.dll
+*.exe
+update.json
+modules/
+data/
+*.log
+cache/
+crashdumps/
+package-lock.json
