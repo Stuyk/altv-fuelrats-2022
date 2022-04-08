@@ -24,3 +24,4 @@ data/
 cache/
 crashdumps/
 package-lock.json
+server.cfg
