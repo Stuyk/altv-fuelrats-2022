@@ -4,7 +4,10 @@ import { ReconnectHelper } from './utility/reconnect';
 import { ConfigHelper } from './utility/config';
 import { PlayerVehicle } from './extensions/vehicle';
 import { ServerCollision } from './systems/collision';
+<<<<<<< HEAD
 import { ServerCanister } from './systems/canister';
+=======
+>>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
