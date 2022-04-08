@@ -29,11 +29,9 @@ Upon bringing the `canister` to the goal a point is given to the player and a ne
 ├── 📂 server         # Server-side
 ├── 📂 webview        # UI / WebView
 └── 📂 utility        # Scripts that assist with the build pipeline
-
-📂 resources          # Where the built resources live
-├── 📂 core           # Main logic
-└── 📂 webview        # UI / WebView
 ```
+
+_Do not put anything in the `resources` folder. It will be overwritten._
 
 ## Installation
 
@@ -63,7 +61,3 @@ _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy wi
 | Windows | WebView Build + Mods         | `yarn windows` |
 | Windows | WebView Build + Mods + Debug | `yarn devtest` |
 | Windows | Mods + Debug                 | `yarn dev`     |
-
-
-## Todo
-- [ ] Move building logic to esbuild or swc
