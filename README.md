@@ -67,3 +67,36 @@ _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy wi
 | Windows | WebView Build + Mods         | `yarn windows` |
 | Windows | WebView Build + Mods + Debug | `yarn devtest` |
 | Windows | Mods + Debug                 | `yarn dev`     |
+
+## Todo List
+
+### Spawn
+
+- [ ] Set Player into Vehicle
+- [ ] Disallow Player Leaving Vehicle
+
+### Collision
+
+- [ ] Collision Detection for Front of Cars
+- [ ] Zero Collision Near Round Spawn Point
+
+### Canister
+
+- [ ] Canister Create
+- [ ] Canister Pickup
+- [ ] Canister Drop
+- [ ] Canister Destroy
+- [ ] Canister Transfer
+- [ ] Canister Sync
+
+### Rounds
+
+- [ ] Start Round
+  - [ ] Release Controls After Start Time
+- [ ] End Round (arg should be player who scored)
+  - [ ] Reset Canister (Determine New Canister Location)
+  - [ ] Reset Vehicle (Stack Vehicles on Round Spawn)
+  - [ ] Add Score
+  - [ ] Disable Controls for Everyone
+- [ ] Reset Scores (All Players)
+- [ ] Set Round Vehicle Type
