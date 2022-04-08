@@ -30,6 +30,8 @@ export class PlayerVehicle extends alt.Vehicle {
         this.engineOn = true;
         this.setOwnerIntoVehicle();
         this.manualEngineControl = true;
+        this.customPrimaryColor = new alt.RGBA(255, 192, 203, 255);
+        this.customSecondaryColor = new alt.RGBA(255, 192, 203, 255);
         return this;
     }
 

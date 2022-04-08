@@ -19,9 +19,6 @@ class Main {
         ReconnectHelper.invoke();
 
         ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
-        const blip = new alt.PointBlip(SPAWN.x - 6, SPAWN.y, 22.44);
-        blip.sprite = 1;
-        blip.name = 'test';
     }
 
     static playerConnect(player: alt.Player) {
@@ -30,7 +27,7 @@ class Main {
         alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
         alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
 
-        new PlayerVehicle(player, 'adder', SPAWN);
+        new PlayerVehicle(player, 'karby', SPAWN);
 
         ServerCanister.sync(player);
 
