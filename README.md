@@ -23,9 +23,12 @@ Upon bringing the `canister` to the goal a point is given to the player and a ne
 ```text
 📂 src            # Where the code lives
 ├── 📂 client         # Client-side
+├── 📂 configs        # Folders with 'resource.cfg'
+├── 📂 core           # Shared code (event names, etc)
+├── 📂 mods           # MLOs, Vehicles, etc.
 ├── 📂 server         # Server-side
 ├── 📂 webview        # UI / WebView
-└── 📂 core           # Shared code (event names, etc)
+└── 📂 utility        # Scripts that assist with the build pipeline
 
 📂 resources          # Where the built resources live
 ├── 📂 core           # Main logic
@@ -52,11 +55,15 @@ yarn build
 
 ## Running
 
-| OS      | Description                      | Command        |
-| ------- | -------------------------------- | -------------- |
-| Windows | Run a windows server             | `yarn windows` |
-| Linux   | Run a linux server               | `yarn linux`   |
-| Windows | Run a auto-refreshing dev server | `yarn dev`     |
+_Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy with `yarn linux` or `yarn windows`_
+
+| OS      | Description                  | Command        |
+| ------- | ---------------------------- | -------------- |
+| Linux   | WebView Build + Mods         | `yarn linux`   |
+| Windows | WebView Build + Mods         | `yarn windows` |
+| Windows | WebView Build + Mods + Debug | `yarn devtest` |
+| Windows | Mods + Debug                 | `yarn dev`     |
+
 
 ## Todo
 - [ ] Move building logic to esbuild or swc
