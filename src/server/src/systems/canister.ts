@@ -24,17 +24,25 @@ export class ServerCanister {
         canister = new CanisterColshape(pos, CANISTER_RADIUS, CANISTER_HEIGHT);
         canister.addCallback(ServerCanister.pickup);
 
-        alt.emitAllClients(EVENT.TO_CLIENT.CANISTER.SPAWN, pos);
+        if (debug) {
+            alt.log(`[Debug] Creating new canister`);
+        }
     }
 
     static sync(player: alt.Player) {
         if (!owner) {
             alt.emitClient(player, EVENT.TO_CLIENT.CANISTER.SPAWN, canister.pos);
+
+            if (debug) {
+                alt.log(`[Debug] ${player.name} - Synchronizing canister for new player.`);
+            }
         }
     }
 
     static pickup(player: alt.Player) {
-        alt.log(`${player.name} is trying to pickup canister`);
+        if (debug) {
+            alt.log(`[Debug] ${player.name} is trying to pickup canister`);
+        }
     }
 
     static drop(player: alt.Player) {
