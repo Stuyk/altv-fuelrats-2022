@@ -4,11 +4,13 @@
     "private": true,
     "scripts": {
         "[-] Deployment": "",
-        "windows": "yarn build && altv-server.exe",
-        "linux": "yarn build && ./start.sh",
-        "dev": "nodemon --watch \"./src/**\" --ext \"ts\" --exec \"yarn build && altv-server.exe\"",
+        "windows": "yarn build:core && altv-server.exe",
+        "linux": "yarn build:core && ./start.sh",
+        "dev": "nodemon --watch \"./src/**\" --ext \"ts\" --exec \"yarn build:dev && altv-server.exe\"",
         "[-] Build": "",
-        "build": "yarn clean && yarn build:client && yarn build:server && yarn build:webview && yarn copy:mods && yarn copy:configs",
+        "build:dev": "yarn clean && yarn build:client && yarn build:server && yarn copy:mods && yarn copy:configs",
+        "build:core": "yarn clean && yarn build:client && yarn build:server && yarn build:webview && yarn copy:mods && yarn copy:configs",
+        "[-] Module Builds": "",
         "build:client": "yarn workspace @fuelrats/client build",
         "build:server": "yarn workspace @fuelrats/server build",
         "build:webview": "yarn workspace @fuelrats/webview build",
@@ -20,7 +22,7 @@
         "[-] Updates": "",
         "update": "altv-pkg d release",
         "[-] Utilities": "",
-        "clean": "rimraf resources"
+        "clean": "yarn workspace @fuelrats/utility clean"
     },
     "workspaces": [
         "src/*"
@@ -28,12 +30,9 @@
     "devDependencies": {
         "altv-pkg": "^1.2.0",
         "esbuild": "^0.14.34",
+        "nodemon": "^2.0.15",
         "prettier": "^2.6.2",
         "typescript": "^4.6.3"
-    },
-    "dependencies": {
-        "nodemon": "^2.0.15",
-        "rimraf": "^3.0.2"
     },
     "type": "module"
 }

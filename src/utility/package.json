@@ -1,0 +1,12 @@
+{
+    "name": "@fuelrats/utility",
+    "packageManager": "yarn@3.2.0",
+    "version": "0.0.0",
+    "main": "clean.js",
+    "scripts": {
+        "clean": "node ./clean.js"
+    },
+    "devDependencies": {
+        "fs-extra": "^10.0.1"
+    }
+}
