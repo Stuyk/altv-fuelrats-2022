@@ -1,4 +1,4 @@
-import { STREAM_SYNCED_META } from '@fuelrats/core';
+import { EVENT, STREAM_SYNCED_META } from '@fuelrats/core';
 import * as alt from 'alt-client';
 import * as native from 'natives';
 
@@ -10,8 +10,36 @@ export class ClientCanister {
     static init(_debug = false) {
         debug = _debug;
         alt.on('gameEntityCreate', ClientCanister.create);
-        alt.on('gameEntityDestroy', ClientCanister.destroy);
+        alt.on('gameEntityDestroy', ClientCanister.detach);
         alt.on('streamSyncedMetaChange', ClientCanister.streamSyncedMetaChange);
+        alt.onServer(EVENT.TO_CLIENT.CANISTER.SPAWN, ClientCanister.spawn);
+        alt.on('disconnect', ClientCanister.delete);
+    }
+
+    private static delete() {
+        if (id) {
+            native.deleteEntity(id);
+        }
+    }
+
+    static spawn(pos: alt.Vector3) {
+        if (id === undefined || id === null) {
+            id = native.createObjectNoOffset(CANISTER_MODEL, pos.x, pos.y, pos.z, false, false, false);
+            native.freezeEntityPosition(id, true);
+
+            if (debug) {
+                alt.log(`[Debug] Created Canister`);
+            }
+        }
+
+        if (debug) {
+            alt.log(`[Debug] Spawned Canister`);
+        }
+
+        native.setEntityCollision(id, false, false);
+        native.detachEntity(id, false, false);
+        native.freezeEntityPosition(id, true);
+        native.setEntityCoordsNoOffset(id, pos.x, pos.y, pos.z, false, false, false);
     }
 
     /**
@@ -45,6 +73,7 @@ export class ClientCanister {
         }
 
         native.freezeEntityPosition(id, true);
+        native.setEntityCollision(id, false, false);
         native.attachEntityToEntity(
             id,
             entity.vehicle.scriptID,
@@ -68,13 +97,14 @@ export class ClientCanister {
      * This function is called when a vehicle or player leaves the stream range.
      * @param entity
      */
-    static destroy(entity: alt.Entity) {
+    static detach(entity: alt.Entity) {
         if (!(entity instanceof alt.Player)) {
             return;
         }
 
         if (id !== undefined && id !== null) {
-            native.deleteEntity(id);
+            native.detachEntity(id, false, false);
+            native.freezeEntityPosition(id, true);
         }
     }
 

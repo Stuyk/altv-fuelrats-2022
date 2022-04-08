@@ -4,6 +4,7 @@ import { ReconnectHelper } from './utility/reconnect';
 import { ConfigHelper } from './utility/config';
 import { PlayerVehicle } from './extensions/vehicle';
 import { ServerCollision } from './systems/collision';
+import { ServerCanister } from './systems/canister';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -16,6 +17,11 @@ class Main {
         alt.on('playerConnect', Main.playerConnect);
         ServerCollision.init(debug);
         ReconnectHelper.invoke();
+
+        ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
+        const blip = new alt.PointBlip(SPAWN.x - 6, SPAWN.y, 22.44);
+        blip.sprite = 1;
+        blip.name = 'test';
     }
 
     static playerConnect(player: alt.Player) {
@@ -26,8 +32,10 @@ class Main {
 
         new PlayerVehicle(player, 'adder', SPAWN);
 
+        ServerCanister.sync(player);
+
         // ! - DEBUG REMEMBER TO REMOVE
-        const something = new alt.Vehicle('infernus', SPAWN.x, SPAWN.y + 3, 25.44, 0, 0, 0);
+        const something = new alt.Vehicle('infernus', SPAWN.x, SPAWN.y + 5, 25.44, 0, 0, 0);
     }
 }
 
