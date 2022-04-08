@@ -12,6 +12,11 @@ export const EVENT = {
     FROM_WEBVIEW: {
         READY: 'webview:Ready',
     },
+    TO_SERVER: {
+        COLLISION: {
+            EMIT: 'collision:emit',
+        },
+    },
 };
 
 deepFreeze(EVENT);

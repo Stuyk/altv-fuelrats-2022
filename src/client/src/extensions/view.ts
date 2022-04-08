@@ -2,13 +2,15 @@ import * as native from 'natives';
 import * as alt from 'alt-client';
 import { EVENT } from '@fuelrats/core';
 
+let debug;
 let _isReady: boolean = false;
 let _webview: alt.WebView;
 let _currentEvents: { eventName: string; callback: any }[] = [];
 let _cursorCount: number = 0;
 
 export class WebViewController {
-    static init() {
+    static init(_debug = false) {
+        debug = _debug;
         alt.onServer(EVENT.TO_CLIENT.WEBVIEW.SET_URL, WebViewController.create);
     }
 
@@ -16,7 +18,7 @@ export class WebViewController {
      * "If the url contains localhost or 127.0.0.1, then log a warning to the console. If the webview
      * is not already created, then create a new webview with the url and set the isReady variable to
      * true."
-     * 
+     *
      * The next function is the one that is called when the player clicks the button.
      * @param {string} url - The URL of the website you want to use.
      */
