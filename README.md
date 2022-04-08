@@ -47,11 +47,17 @@ yarn install
 yarn update
 ```
 
-```
-yarn build
-```
+## Configurations
+
+**First, never ever modidfy server.cfg. Changes will not be saved.**
+
+All configurations are under the `config` folder.
+
+Modify each environment configuration accordingly.
 
 ## Running
+
+When running this repository it will automatically build on files based on repository.
 
 _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy with `yarn linux` or `yarn windows`_
 
