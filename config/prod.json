@@ -21,6 +21,7 @@
         "js-module"
     ],
     "resources": [
+        "karby",
         "webview",
         "core"
     ],

@@ -8,6 +8,9 @@ export const EVENT = {
         WEBVIEW: {
             SET_URL: `webview:set:url`,
         },
+        CANISTER: {
+            SPAWN: 'canister:spawn',
+        },
     },
     FROM_WEBVIEW: {
         READY: 'webview:Ready',

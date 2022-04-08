@@ -8,25 +8,11 @@ const TIME_BETWEEN_CHECKS = 60;
 let nextCheck = Date.now() + TIME_BETWEEN_CHECKS;
 let debug: boolean;
 let lastRay;
-let didCollide = false;
 
 export class ClientCollision {
     static init(_debug: boolean = false) {
         alt.setInterval(ClientCollision.tick, 0);
         debug = _debug;
-    }
-
-    static debug(min: alt.Vector3, max: alt.Vector3) {
-        if (alt.Player.local.vehicle) {
-            const pos = alt.Player.local.vehicle.pos;
-            const fwd = getForwardVector(alt.Player.local.vehicle.scriptID, new alt.Vector3(max.x, max.y, 0));
-
-            if (didCollide) {
-                native.drawLine(pos.x, pos.y, pos.z, fwd.x, fwd.y, pos.z, 0, 255, 0, 255);
-            } else {
-                native.drawLine(pos.x, pos.y, pos.z, fwd.x, fwd.y, pos.z, 255, 0, 0, 255);
-            }
-        }
     }
 
     /**
@@ -38,20 +24,13 @@ export class ClientCollision {
             return;
         }
 
-        const [_, min, max] = native.getModelDimensions(alt.Player.local.vehicle.model);
-
-        if (debug) {
-            ClientCollision.debug(min, max);
-        }
-
         if (Date.now() < nextCheck) {
             return;
         }
 
         nextCheck = Date.now() + TIME_BETWEEN_CHECKS;
-        didCollide = false;
 
-        lastRay = native.startShapeTestBound(alt.Player.local.vehicle.scriptID, max.y, max.y);
+        lastRay = native.startShapeTestBound(alt.Player.local.vehicle.scriptID, 2, 2);
 
         let [_a, _hit, _endCoords, _surfaceNormal, _entity] = native.getShapeTestResult(lastRay);
 
@@ -60,6 +39,10 @@ export class ClientCollision {
         }
 
         const closestVehicle = [...alt.Vehicle.all].find((vehicle) => {
+            if (vehicle.scriptID === alt.Player.local.vehicle?.scriptID) {
+                return false;
+            }
+
             if (vehicle.scriptID === _entity) {
                 return true;
             }
@@ -72,11 +55,13 @@ export class ClientCollision {
         }
 
         if (!native.hasEntityCollidedWithAnything(alt.Player.local.vehicle.scriptID)) {
-            didCollide = false;
             return;
         }
 
-        didCollide = true;
+        if (debug) {
+            native.playSoundFrontend(-1, 'Click', 'DLC_HEIST_HACKING_SNAKE_SOUNDS', true);
+        }
+
         alt.emitServer(EVENT.TO_SERVER.COLLISION.EMIT, closestVehicle);
     }
 }
