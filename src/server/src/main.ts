@@ -16,9 +16,9 @@ class Main {
     static init() {
         alt.on('playerConnect', Main.playerConnect);
         ServerCollision.init(debug);
-        ReconnectHelper.invoke();
-
+        ServerCanister.init(debug);
         ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
+        ReconnectHelper.invoke();
     }
 
     static playerConnect(player: alt.Player) {
@@ -32,7 +32,7 @@ class Main {
         ServerCanister.sync(player);
 
         // ! - DEBUG REMEMBER TO REMOVE
-        const something = new alt.Vehicle('infernus', SPAWN.x, SPAWN.y + 5, 25.44, 0, 0, 0);
+        // const something = new alt.Vehicle('infernus', SPAWN.x, SPAWN.y + 5, 25.44, 0, 0, 0);
     }
 }
 

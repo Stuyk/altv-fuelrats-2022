@@ -1,5 +1,6 @@
 import { EVENT } from '@fuelrats/core';
 import * as alt from 'alt-server';
+import { ServerCanister } from './canister';
 
 let debug = false;
 
@@ -19,7 +20,23 @@ export class ServerCollision {
             alt.log(`[Debug] Collision from ${player.id} with vehicle ${closestVehicle.id}`);
         }
 
+        // Repair Vehicle on Collision
         ServerCollision.repair(player);
+
+        // Get the driver target...
+        const target = closestVehicle.driver;
+        if (!target) {
+            return;
+        }
+
+        const ownerId = ServerCanister.getOwnerId();
+        const isSomeoneOwner = player.id === ownerId || target.id === ownerId;
+
+        if (!isSomeoneOwner) {
+            return;
+        }
+
+        ServerCanister.transfer(player.id === ownerId ? target : player);
     }
 
     /**

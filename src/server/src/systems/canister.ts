@@ -3,9 +3,11 @@ import { EVENT } from '@fuelrats/core/src/events';
 import * as alt from 'alt-server';
 import { CanisterColshape } from '../extensions/colshape';
 
+const TIME_BETWEEN_TRANSFERS = 500;
 const CANISTER_RADIUS = 1;
 const CANISTER_HEIGHT = 2;
 
+let nextTransferTime = Date.now() + TIME_BETWEEN_TRANSFERS;
 let canister: CanisterColshape;
 let owner: alt.Player | undefined;
 let debug = false;
@@ -17,6 +19,18 @@ export class ServerCanister {
         alt.on('playerDisconnect', (player: alt.Player) => {
             ServerCanister.drop(player);
         });
+    }
+
+    static getOwner(): alt.Player | undefined {
+        return owner;
+    }
+
+    static getOwnerId(): number {
+        if (!owner) {
+            return -1;
+        }
+
+        return owner.id;
     }
 
     static create(pos: alt.Vector3) {
@@ -49,6 +63,7 @@ export class ServerCanister {
             alt.log(`[Debug] ${player.name} is trying to pickup canister`);
         }
 
+        owner = player;
         player.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, true);
     }
 
@@ -68,7 +83,22 @@ export class ServerCanister {
         //
     }
 
-    static transfer() {
-        //
+    static transfer(to: alt.Player) {
+        if (Date.now() < nextTransferTime) {
+            return;
+        }
+
+        nextTransferTime = Date.now() + TIME_BETWEEN_TRANSFERS;
+
+        if (owner && owner.id === to.id) {
+            alt.logWarning(`Somehow it's the same person...`);
+        }
+
+        if (owner) {
+            owner.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, false);
+        }
+
+        owner = to;
+        to.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, true);
     }
 }

@@ -118,6 +118,10 @@ export class ClientCanister {
      * @returns The return value is the value of the last expression evaluated.
      */
     static streamSyncedMetaChange(entity: alt.Entity, key: string, value: any, oldValue: any) {
+        console.log(entity);
+        console.log(key);
+        console.log(value);
+
         if (!(entity instanceof alt.Player)) {
             return;
         }
