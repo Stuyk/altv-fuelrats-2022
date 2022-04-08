@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { EVENT, STREAM_SYNCED_META } from '@fuelrats/core';
-=======
-import { STREAM_SYNCED_META } from '@fuelrats/core';
->>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
 import * as alt from 'alt-client';
 import * as native from 'natives';
 
@@ -14,7 +10,6 @@ export class ClientCanister {
     static init(_debug = false) {
         debug = _debug;
         alt.on('gameEntityCreate', ClientCanister.create);
-<<<<<<< HEAD
         alt.on('gameEntityDestroy', ClientCanister.detach);
         alt.on('streamSyncedMetaChange', ClientCanister.streamSyncedMetaChange);
         alt.onServer(EVENT.TO_CLIENT.CANISTER.SPAWN, ClientCanister.spawn);
@@ -45,10 +40,6 @@ export class ClientCanister {
         native.detachEntity(id, false, false);
         native.freezeEntityPosition(id, true);
         native.setEntityCoordsNoOffset(id, pos.x, pos.y, pos.z, false, false, false);
-=======
-        alt.on('gameEntityDestroy', ClientCanister.destroy);
-        alt.on('streamSyncedMetaChange', ClientCanister.streamSyncedMetaChange);
->>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
     }
 
     /**
@@ -82,10 +73,7 @@ export class ClientCanister {
         }
 
         native.freezeEntityPosition(id, true);
-<<<<<<< HEAD
         native.setEntityCollision(id, false, false);
-=======
->>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
         native.attachEntityToEntity(
             id,
             entity.vehicle.scriptID,
@@ -109,22 +97,14 @@ export class ClientCanister {
      * This function is called when a vehicle or player leaves the stream range.
      * @param entity
      */
-<<<<<<< HEAD
     static detach(entity: alt.Entity) {
-=======
-    static destroy(entity: alt.Entity) {
->>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
         if (!(entity instanceof alt.Player)) {
             return;
         }
 
         if (id !== undefined && id !== null) {
-<<<<<<< HEAD
             native.detachEntity(id, false, false);
             native.freezeEntityPosition(id, true);
-=======
-            native.deleteEntity(id);
->>>>>>> 4318fb850e53aad6f96d78bafb1835bcff8aac74
         }
     }
 
