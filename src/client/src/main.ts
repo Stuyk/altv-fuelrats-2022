@@ -1,8 +1,16 @@
 import * as alt from 'alt-client';
-import { events } from '@fuelrats/core';
+import { EVENT } from '@fuelrats/core';
+import { WebViewController } from './extensions/view';
 
-alt.onServer(events.toClient.log.console, handleLogConsole);
+class InternalFunctions {
+    static init() {
+        WebViewController.init();
+        alt.onServer(EVENT.TO_CLIENT.LOG.CONSOLE, InternalFunctions.handleServerToClientLog);
+    }
 
-function handleLogConsole(message: string) {
-    alt.log(message);
+    static handleServerToClientLog(message: string) {
+        alt.log(message);
+    }
 }
+
+InternalFunctions.init();

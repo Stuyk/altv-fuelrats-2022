@@ -7,7 +7,8 @@
         "build": "esbuild --bundle src/main.ts --outfile=../../resources/core/server/main.js --external:alt-server --format=esm --platform=node"
     },
     "dependencies": {
-        "@fuelrats/core": "workspace:src/core"
+        "@fuelrats/core": "workspace:src/core",
+        "node-fetch": "^3.2.3"
     },
     "devDependencies": {
         "@altv/types-natives": "^1.4.4",
