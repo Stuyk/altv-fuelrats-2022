@@ -1,3 +1,5 @@
+import { deepFreeze } from './utilities';
+
 export const EVENT = {
     TO_CLIENT: {
         LOG: {
@@ -17,4 +19,4 @@ export const EVENT = {
     },
 };
 
-Object.freeze(EVENT);
+deepFreeze(EVENT);
