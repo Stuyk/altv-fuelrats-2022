@@ -74,6 +74,7 @@ __metadata:
     "@altv/types-natives": ^1.4.4
     "@altv/types-shared": ^1.2.2
     "@fuelrats/core": "workspace:src/core"
+    esbuild: ^0.14.34
   languageName: unknown
   linkType: soft
 

@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "main": "src/main.ts",
     "scripts": {
-        "build": "tsc"
+        "build": "esbuild --bundle src/main.ts --outfile=../../resources/core/client/main.js --external:alt-client --format=esm --platform=node"
     },
     "dependencies": {
         "@fuelrats/core": "workspace:src/core"
@@ -12,6 +12,7 @@
     "devDependencies": {
         "@altv/types-client": "^2.1.2",
         "@altv/types-natives": "^1.4.4",
-        "@altv/types-shared": "^1.2.2"
+        "@altv/types-shared": "^1.2.2",
+        "esbuild": "^0.14.34"
     }
 }

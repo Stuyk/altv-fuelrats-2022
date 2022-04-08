@@ -10,11 +10,11 @@
 !.yarn/cache
 #.pnp.*
 
-node_modules/*
 node_modules
 altv-server
 resources
 .vscode
+.idea
 *.dll
 *.exe
 update.json
