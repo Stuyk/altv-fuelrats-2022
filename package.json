@@ -7,7 +7,7 @@
         "windows": "yarn build:prod && yarn cfg:prod && altv-server.exe",
         "linux": "yarn build:prod && yarn cfg:prod && ./start.sh",
         "devtest": "yarn build:devtest && yarn cfg:devtest && altv-server.exe",
-        "dev": "yarn cfg:dev && nodemon --watch \"./src/**\" --ext \"ts\" --exec \"yarn build:dev && altv-server.exe\"",
+        "dev": "yarn cfg:dev && yarn vue:dev & nodemon --watch \"./src/**\" --ext \"ts\" --exec \"yarn build:dev && altv-server.exe\"",
         "[-] Build": "",
         "build:prod": "yarn clean && yarn build:client && yarn build:server && yarn build:webview && yarn copy:mods && yarn copy:configs",
         "build:devtest": "yarn clean && yarn build:client && yarn build:server && yarn build:webview && yarn copy:mods && yarn copy:configs",
