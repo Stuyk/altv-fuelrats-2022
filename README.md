@@ -7,6 +7,7 @@ All vehicles are spawned at the same time. A single `canister` and a `goal` are 
 Upon bringing the `canister` to the goal a point is given to the player and a new round will begin.
 
 ## Scope
+
 ```
 - Select Car Color, Neon, etc.
 - 1 Car Type Randomly Per Matchup
@@ -89,21 +90,97 @@ _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy wi
 - [x] Canister Transfer
 - [x] Canister Sync
 - [x] Canister Blip Sync
-- [x] Canister Object Sync  
+- [x] Canister Object Sync
+- [ ] Marker Shown to Distant Players
 
 ### Goals
 
-- [x] Goal Create
-- [x] Goal Blip Sync 
+- [ ] Goal Create
+- [ ] Goal Blip Sync 
+- [ ] Marker Shwon to Distant Players
 
 ### Rounds
 
 - [ ] Start Round
-  - [ ] Release Controls After Start Time
+  - [ ] Freeze Players Until Round Start
+  - [ ] Release Controls After Starting Round
+  - [ ] Create Countdown System for Starting Round
 - [ ] End Round (arg should be player who scored)
   - [ ] Reset Canister (Determine New Canister Location)
   - [ ] Reset Vehicle (Stack Vehicles on Round Spawn)
   - [ ] Add Score
   - [ ] Disable Controls for Everyone
 - [ ] Reset Scores (All Players)
-- [ ] Set Round Vehicle Type
+- [ ] Set Round Vehicle Type Randomly
+- [ ] Round Timer
+
+### Gameplay Mechanics
+
+- [ ] KeyBind Registration
+- [ ] Jumping Vehicles
+  - [ ] Add Cooldown for Jump @ 10s
+  - [ ] Add Sound Alert for Off Cooldown
+- [ ] Speed Boost Vehicles
+  - [ ] Add Cooldown for Boost @ 15s
+  - [ ] Add Sound Alert for Off Cooldown
+- [ ] Lower Speed of Canister Holder Over Time
+
+### WebView
+
+- [ ] Add Page Indexing
+- [ ] Add Page Swapping by Index
+
+### Authentication (WebView)
+
+Index: 0
+
+- [ ] Ares Service for Authentication
+- [ ] Get Discord Info from Ares
+- [ ] Fix Debug / Info with Discord Info
+- [ ] Add Simple File Based Bans (Console Command)
+- [ ] Add Simple Admin System (Discord ID Based)
+- [ ] Register in Page Indexing
+
+### Customization (WebView)
+
+Index: 1
+
+- [ ] Vehicle Colour
+- [ ] Vehicle Neon
+- [ ] Vehicle Horn
+- [ ] Register in Page Indexing
+
+### Chat (WebView)
+
+Index: 2
+
+- [ ] Integrate Chat into WebView System
+- [ ] Add Basic Chat System with Commands
+- [ ] Add Admin System to Chat
+- [ ] Register in Page Indexing
+- [ ] Hide chat if score board key is pressed
+- [ ] Display along-side HUD
+
+### Score Board (WebView)
+
+Index: 3
+
+- [ ] Add HotKey to See Score Board (TAB)
+- [ ] Only Register HotKey After Spawning
+- [ ] Register in Page Indexing
+
+### HUD (WebView)
+
+Index: 4
+
+- [ ] Hide HUD if score board key is pressed
+- [ ] Register in Page Indexing
+- [ ] Display along-side chat
+- [ ] Speedometer
+- [ ] Timer
+- [ ] Power Ups
+  - [ ] Jump
+  - [ ] Boost
+- [ ] Current Top 3-5 Players in Mini Score Board
+- [ ] Show Current Score
+- [ ] Show Player Count
