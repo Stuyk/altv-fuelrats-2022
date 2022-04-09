@@ -5,6 +5,7 @@ import { ConfigHelper } from './utility/config';
 import { PlayerVehicle } from './extensions/vehicle';
 import { ServerCollision } from './systems/collision';
 import { ServerCanister } from './systems/canister';
+import { ServerBlips } from './systems/blips';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -18,21 +19,24 @@ class Main {
         ServerCollision.init(debug);
         ServerCanister.init(debug);
         ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
+        ServerBlips.init();
         ReconnectHelper.invoke();
     }
 
     static playerConnect(player: alt.Player) {
         alt.log(`[${player.id}] ${player.name} has connected to the server.`);
 
-        alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
-        alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
+        alt.setTimeout(() => {
+            if (!player || !player.valid) {
+                return;
+            }
 
-        new PlayerVehicle(player, 'karby', SPAWN);
+            alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
+            alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
 
-        ServerCanister.sync(player);
-
-        // ! - DEBUG REMEMBER TO REMOVE
-        // const something = new alt.Vehicle('infernus', SPAWN.x, SPAWN.y + 5, 25.44, 0, 0, 0);
+            new PlayerVehicle(player, 'karby', SPAWN);
+            ServerCanister.sync(player);
+        }, 2000);
     }
 }
 

@@ -1,9 +1,12 @@
 import * as alt from 'alt-server';
+import { ServerCanister } from '../systems/canister';
 
 const DRIVER_SEAT = 1;
 
 export class PlayerVehicle extends alt.Vehicle {
+    private ownerName: string;
     private owner: number;
+    private blip: alt.PointBlip | undefined;
 
     /**
      * This function is a constructor for the Vehicle class. It takes in an id, type, position, and
@@ -26,6 +29,7 @@ export class PlayerVehicle extends alt.Vehicle {
         player.model = 'mp_m_freemode_01';
         player.spawn(position.x, position.y, position.z, 0);
 
+        this.ownerName = player.name;
         this.owner = player.id;
         this.engineOn = true;
         this.setOwnerIntoVehicle();
@@ -43,7 +47,45 @@ export class PlayerVehicle extends alt.Vehicle {
             this.destroy();
         } catch (err) {}
 
+        try {
+            this.blip?.destroy();
+        } catch (err) {}
+
         alt.logWarning(`Player with ID ${this.owner} has left and the vehicle was removed.`);
+    }
+
+    /**
+     * "If the blip doesn't exist, create it, otherwise update it's position."
+     *
+     * The blip is created using the `alt.PointBlip` constructor. The constructor takes three
+     * arguments:
+     *
+     * - `x` - The x coordinate of the blip.
+     * - `y` - The y coordinate of the blip.
+     * - `z` - The z coordinate of the blip.
+     *
+     * The blip is then assigned a sprite, color, and name.
+     *
+     * The blip's position is then updated using the `pos` property.
+     */
+    updateBlipPosition() {
+        if (ServerCanister.getOwnerId() === this.owner) {
+            if (this.blip?.valid) {
+                this.blip.destroy();
+                this.blip = undefined;
+            }
+
+            return;
+        }
+
+        if (!this.blip) {
+            this.blip = new alt.PointBlip(this.pos.x, this.pos.y, this.pos.z);
+            this.blip.sprite = 326; // get_away_car
+            this.blip.color = 5;
+            this.blip.name = this.ownerName;
+        }
+
+        this.blip.pos = this.pos;
     }
 
     /**
