@@ -77,10 +77,18 @@ _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy wi
 - [x] Disallow Player Leaving Vehicle
 - [ ] Disable Controls to Leave Vehicle 
 
+![](https://thumbs.gfycat.com/GrotesqueGrayGuineafowl-size_restricted.gif)
+
+_Demonstrates Spawning_
+
 ### Collision
 
 - [x] Collision Detection
 - [ ] Zero Collision Near Round Spawn Point
+
+![](https://thumbs.gfycat.com/HeavyIdealCrocodileskink-size_restricted.gif)
+
+_Demonstrates Collision + Canister Behavior_
 
 ### Canister
 
