@@ -12,8 +12,8 @@ export class ClientCanister {
         alt.on('gameEntityCreate', ClientCanister.create);
         alt.on('gameEntityDestroy', ClientCanister.detach);
         alt.on('streamSyncedMetaChange', ClientCanister.streamSyncedMetaChange);
-        alt.onServer(EVENT.TO_CLIENT.CANISTER.SPAWN, ClientCanister.spawn);
         alt.on('disconnect', ClientCanister.delete);
+        alt.onServer(EVENT.TO_CLIENT.CANISTER.SPAWN, ClientCanister.spawn);
     }
 
     private static delete() {
@@ -22,9 +22,18 @@ export class ClientCanister {
         }
     }
 
-    static spawn(pos: alt.Vector3) {
+    static spawn(pos: alt.Vector3, owner: alt.Player | undefined) {
+        const actualPos = owner && owner.valid ? owner.pos : pos;
         if (id === undefined || id === null) {
-            id = native.createObjectNoOffset(CANISTER_MODEL, pos.x, pos.y, pos.z, false, false, false);
+            id = native.createObjectNoOffset(
+                CANISTER_MODEL,
+                actualPos.x,
+                actualPos.y,
+                actualPos.z,
+                false,
+                false,
+                false
+            );
             native.freezeEntityPosition(id, true);
 
             if (debug) {
@@ -39,7 +48,7 @@ export class ClientCanister {
         native.setEntityCollision(id, false, false);
         native.detachEntity(id, false, false);
         native.freezeEntityPosition(id, true);
-        native.setEntityCoordsNoOffset(id, pos.x, pos.y, pos.z, false, false, false);
+        native.setEntityCoordsNoOffset(id, actualPos.x, actualPos.y, actualPos.z, false, false, false);
     }
 
     /**
@@ -118,10 +127,6 @@ export class ClientCanister {
      * @returns The return value is the value of the last expression evaluated.
      */
     static streamSyncedMetaChange(entity: alt.Entity, key: string, value: any, oldValue: any) {
-        console.log(entity);
-        console.log(key);
-        console.log(value);
-
         if (!(entity instanceof alt.Player)) {
             return;
         }

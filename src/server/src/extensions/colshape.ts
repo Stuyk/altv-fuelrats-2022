@@ -1,13 +1,13 @@
 import * as alt from 'alt-server';
 
-export class CanisterColshape extends alt.ColshapeCylinder {
-    id: null | undefined | string = 'canister';
+export class TempColshapeCylinder extends alt.ColshapeCylinder {
+    id: null | undefined | string;
     private enterBind;
     private callback: ((player: alt.Player) => void) | undefined;
 
-    constructor(pos: alt.Vector3, radius: number, height: number) {
+    constructor(pos: alt.Vector3, radius: number, height: number, id: string) {
         super(pos.x, pos.y, pos.z, radius, height);
-        this.id = 'canister';
+        this.id = id;
         this.enterBind = this.handleEnterShape.bind(this);
         alt.on('entityEnterColshape', this.enterBind);
         return this;
@@ -25,11 +25,14 @@ export class CanisterColshape extends alt.ColshapeCylinder {
      * Used to fully delete this ColShape.
      * Should be used in place of destroy.
      *
-     * @memberof CanisterColshape
+     * @memberof TempColshapeCylinder
      */
     remove() {
         alt.off('entityEnterColshape', this.enterBind);
-        this.destroy();
+
+        try {
+            this.destroy();
+        } catch (err) {}
     }
 
     /**
@@ -55,7 +58,11 @@ export class CanisterColshape extends alt.ColshapeCylinder {
             return;
         }
 
-        if (!(colshape instanceof CanisterColshape)) {
+        if (!player.valid || !player.vehicle) {
+            return;
+        }
+
+        if (!(colshape instanceof TempColshapeCylinder)) {
             return;
         }
 
