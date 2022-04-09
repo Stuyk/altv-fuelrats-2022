@@ -124,14 +124,20 @@ _Demonstrates Collision + Canister Behavior_
 
 ### Gameplay Mechanics
 
-- [ ] KeyBind Registration
-- [ ] Jumping Vehicles
-  - [ ] Add Cooldown for Jump @ 10s
+- [x] KeyBind Registration
+- [x] Jumping Vehicles
+  - [x] Add Cooldown for Jump @ 10s
+  - [x] Bound to Left Control
   - [ ] Add Sound Alert for Off Cooldown
-- [ ] Speed Boost Vehicles
-  - [ ] Add Cooldown for Boost @ 15s
+- [x] Speed Boost Vehicles
+  - [x] Add Cooldown for Boost @ 15s
+  - [x] Bound to Left Shift 
   - [ ] Add Sound Alert for Off Cooldown
 - [ ] Lower Speed of Canister Holder Over Time
+
+![](https://thumbs.gfycat.com/MadeupNiftyFlatfish-size_restricted.gif)
+
+_Demonstrates Power Up Behavior_
 
 ### WebView
 

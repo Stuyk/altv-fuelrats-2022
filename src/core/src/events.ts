@@ -19,6 +19,9 @@ export const EVENT = {
         COLLISION: {
             EMIT: 'collision:emit',
         },
+        POWERUP: {
+            USE: 'powerup:use',
+        },
     },
 };
 

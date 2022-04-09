@@ -6,6 +6,7 @@ import { PlayerVehicle } from './extensions/vehicle';
 import { ServerCollision } from './systems/collision';
 import { ServerCanister } from './systems/canister';
 import { ServerBlips } from './systems/blips';
+import { ServerPowerUp } from './systems/powerup';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -20,6 +21,7 @@ class Main {
         ServerCanister.init(debug);
         ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
         ServerBlips.init();
+        ServerPowerUp.init();
         ReconnectHelper.invoke();
     }
 
@@ -36,6 +38,7 @@ class Main {
 
             new PlayerVehicle(player, 'karby', SPAWN);
             ServerCanister.sync(player);
+            ServerPowerUp.refreshAllCooldowns(player);
         }, 2000);
     }
 }
