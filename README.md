@@ -72,22 +72,29 @@ _Develop alone with `yarn dev`. Test with friends with `yarn devtest`. Deploy wi
 
 ### Spawn
 
-- [ ] Set Player into Vehicle
-- [ ] Disallow Player Leaving Vehicle
+- [x] Set Player into Vehicle
+- [x] Disallow Player Leaving Vehicle
+- [ ] Disable Controls to Leave Vehicle 
 
 ### Collision
 
-- [ ] Collision Detection for Front of Cars
+- [x] Collision Detection
 - [ ] Zero Collision Near Round Spawn Point
 
 ### Canister
 
-- [ ] Canister Create
-- [ ] Canister Pickup
-- [ ] Canister Drop
-- [ ] Canister Destroy
-- [ ] Canister Transfer
-- [ ] Canister Sync
+- [x] Canister Create
+- [x] Canister Pickup
+- [x] Canister Drop
+- [x] Canister Transfer
+- [x] Canister Sync
+- [x] Canister Blip Sync
+- [x] Canister Object Sync  
+
+### Goals
+
+- [x] Goal Create
+- [x] Goal Blip Sync 
 
 ### Rounds
 
