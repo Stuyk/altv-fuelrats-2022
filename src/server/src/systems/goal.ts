@@ -1,3 +1,4 @@
+import { EVENT } from '@fuelrats/core';
 import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
 import { ServerCanister } from './canister';
@@ -61,6 +62,7 @@ export class ServerGoal {
             }
         }
 
+        alt.emitAllClients(EVENT.TO_CLIENT.SOUND.FRONTEND, 'Whistle', 'DLC_TG_Running_Back_Sounds');
         return true;
     }
 

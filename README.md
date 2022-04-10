@@ -103,9 +103,10 @@ _Demonstrates Collision + Canister Behavior_
 
 ### Goals
 
-- [ ] Goal Create
-- [ ] Goal Blip Sync 
-- [ ] Marker Shwon to Distant Players
+- [x] Goal Create
+- [x] Goal Blip Sync 
+- [x] Goal Whistle Noise
+- [ ] Marker Shown to Distant Players
 
 ### Rounds
 
