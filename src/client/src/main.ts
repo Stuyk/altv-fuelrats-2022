@@ -8,7 +8,7 @@ import { ClientCanister } from './systems/canister';
 import { ClientCollision } from './systems/collision';
 import { ClientMarkers } from './systems/markers';
 import { PowerUp } from './systems/powerup';
-import { WeatherSync } from './systems/weatherSync';
+import { WorldSync } from './systems/worldSync';
 import { Console } from './utility/console';
 import { FrontendSound } from './utility/sound';
 
@@ -29,7 +29,7 @@ class InternalFunctions {
         PowerUp.init();
         PowerUpBoost.init();
         PowerUpJump.init();
-        WeatherSync.init();
+        WorldSync.init();
         // Debug Stuffs
         Console.init();
         alt.onServer(EVENT.TO_CLIENT.LOG.CONSOLE, InternalFunctions.handleServerToClientLog);

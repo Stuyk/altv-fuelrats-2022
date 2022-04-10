@@ -22,12 +22,12 @@ interface IWorld {
 };
 
 
-export class WeatherSync {
+export class WorldSync {
   static init() {
-    alt.onServer('World:sync', this.handleWeatherSync);
+    alt.onServer('World:sync', this.handleWorldSync);
   }
 
-  static handleWeatherSync(world: Partial<IWorld> | undefined) {
+  static handleWorldSync(world: Partial<IWorld> | undefined) {
     native.setClockDate(1, 1, 2022);
     native.setClockTime(world?.time?.hour ?? 12, world?.time?.minute ?? 0, 0);
 
