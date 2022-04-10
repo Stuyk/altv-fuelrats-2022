@@ -6,24 +6,72 @@ const COOLDOWNS = {
     [SYNCED_META.PLAYER.JUMP_AVAILABLE]: 10000,
 };
 
+const SOUNDS = {
+    [SYNCED_META.PLAYER.JUMP_AVAILABLE]: {
+        USE: {
+            audio: 'QUIT_WHOOSH',
+            dict: 'HUD_MINI_GAME_SOUNDSET',
+        },
+        COOLDOWN: {
+            audio: 'CONFIRM_BEEP',
+            dict: 'HUD_MINI_GAME_SOUNDSET',
+        },
+    },
+    [SYNCED_META.PLAYER.BOOST_AVAILABLE]: {
+        COOLDOWN: {
+            audio: 'CONFIRM_BEEP',
+            dict: 'HUD_MINI_GAME_SOUNDSET',
+        },
+    },
+};
+
 export class ServerPowerUp {
     static init() {
         alt.onClient(EVENT.TO_SERVER.POWERUP.USE, ServerPowerUp.usePowerUp);
     }
 
+    /**
+     * It loops through all the keys in the COOLDOWNS object and sets the player's synced meta to true,
+     * effectively allowing the player to use any power up.
+     * @param player - alt.Player - The player to refresh the cooldowns for.
+     */
     static refreshAllCooldowns(player: alt.Player) {
         Object.keys(COOLDOWNS).forEach((key) => {
             player.setSyncedMeta(key, true);
         });
     }
 
+    /**
+     * If the player has a powerup, play a sound, set the powerup to false, and after set amount of seconds, play
+     * a sound and set the powerup to true.
+     * @param player - alt.Player - The player who is using the powerup.
+     * @param {string} syncedMetaName - The name of the synced meta you want to use.
+     */
     static usePowerUp(player: alt.Player, syncedMetaName: string) {
         const ms = COOLDOWNS[syncedMetaName] ? COOLDOWNS[syncedMetaName] : 10000;
+
+        if (SOUNDS[syncedMetaName].USE) {
+            alt.emitClient(
+                player,
+                EVENT.TO_CLIENT.SOUND.FRONTEND,
+                SOUNDS[syncedMetaName].USE?.audio,
+                SOUNDS[syncedMetaName].USE?.dict
+            );
+        }
 
         player.setSyncedMeta(syncedMetaName, false);
         alt.setTimeout(() => {
             if (!player || !player.valid) {
                 return;
+            }
+
+            if (SOUNDS[syncedMetaName].COOLDOWN) {
+                alt.emitClient(
+                    player,
+                    EVENT.TO_CLIENT.SOUND.FRONTEND,
+                    SOUNDS[syncedMetaName].COOLDOWN?.audio,
+                    SOUNDS[syncedMetaName].COOLDOWN?.dict
+                );
             }
 
             player.setSyncedMeta(syncedMetaName, true);

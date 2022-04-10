@@ -6,6 +6,7 @@ import { ClientCollision } from './systems/collision';
 import { PowerUp } from './systems/powerup';
 import { PowerUpBoost } from './powerups/boost';
 import { PowerUpJump } from './powerups/jump';
+import { FrontendSound } from './utility/sound';
 
 let debug = true;
 
@@ -14,6 +15,8 @@ class InternalFunctions {
         WebViewController.init(debug);
         ClientCanister.init(debug);
         ClientCollision.init(debug);
+        // Utilities
+        FrontendSound.init();
         // Power Up System
         PowerUp.init();
         PowerUpBoost.init();

@@ -3,7 +3,7 @@ import * as alt from 'alt-server';
 export class TempColshapeCylinder extends alt.ColshapeCylinder {
     id: null | undefined | string;
     private enterBind;
-    private callback: ((player: alt.Player) => void) | undefined;
+    private callback: ((player: alt.Player) => boolean) | undefined;
 
     constructor(pos: alt.Vector3, radius: number, height: number, id: string) {
         super(pos.x, pos.y, pos.z, radius, height);
@@ -17,7 +17,7 @@ export class TempColshapeCylinder extends alt.ColshapeCylinder {
      * It takes a function as a parameter and assigns it to the callback variable
      * @param callback - The function that will be called when the event is triggered.
      */
-    addCallback(callback: (player: alt.Player) => void) {
+    addCallback(callback: (player: alt.Player) => boolean) {
         this.callback = callback;
     }
 
@@ -74,7 +74,11 @@ export class TempColshapeCylinder extends alt.ColshapeCylinder {
             return;
         }
 
+        const result = this.callback(player);
+        if (!result) {
+            return;
+        }
+
         this.remove();
-        this.callback(player);
     }
 }

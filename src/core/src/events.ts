@@ -11,6 +11,10 @@ export const EVENT = {
         CANISTER: {
             SPAWN: 'canister:spawn',
         },
+        SOUND: {
+            FRONTEND: 'sound:frontend:play',
+            CUSTOM: 'sound:custom:play',
+        },
     },
     FROM_WEBVIEW: {
         READY: 'webview:Ready',

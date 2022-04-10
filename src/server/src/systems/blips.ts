@@ -1,11 +1,13 @@
 import * as alt from 'alt-server';
 import { PlayerVehicle } from '../extensions/vehicle';
 import { ServerCanister } from './canister';
+import { ServerGoal } from './goal';
 
 export class ServerBlips {
     static init() {
         alt.setInterval(ServerBlips.updateVehicles, 20);
         alt.setInterval(ServerBlips.updateCanister, 20);
+        alt.setInterval(ServerBlips.updateGoal, 20);
     }
 
     /**
@@ -29,5 +31,9 @@ export class ServerBlips {
      */
     static updateCanister() {
         ServerCanister.updateBlipPosition();
+    }
+
+    static updateGoal() {
+        ServerGoal.updateBlipPosition();
     }
 }
