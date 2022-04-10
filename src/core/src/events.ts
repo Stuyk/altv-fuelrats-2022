@@ -15,6 +15,10 @@ export const EVENT = {
             FRONTEND: 'sound:frontend:play',
             CUSTOM: 'sound:custom:play',
         },
+        MARKER: {
+            CREATE: 'marker:create',
+            REMOVE: 'marker:remove',
+        },
     },
     FROM_WEBVIEW: {
         READY: 'webview:Ready',

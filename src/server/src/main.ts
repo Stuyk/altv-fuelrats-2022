@@ -8,6 +8,7 @@ import { ServerCanister } from './systems/canister';
 import { ServerBlips } from './systems/blips';
 import { ServerPowerUp } from './systems/powerup';
 import { ServerGoal } from './systems/goal';
+import { ServerMarkers } from './systems/markers';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -41,6 +42,7 @@ class Main {
             new PlayerVehicle(player, 'karby', SPAWN);
             ServerCanister.sync(player);
             ServerPowerUp.refreshAllCooldowns(player);
+            ServerMarkers.sync(player);
         }, 2000);
     }
 }

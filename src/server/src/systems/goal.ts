@@ -2,6 +2,7 @@ import { EVENT } from '@fuelrats/core';
 import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
 import { ServerCanister } from './canister';
+import { ServerMarkers } from './markers';
 
 const GOAL_RADIUS = 3;
 const GOAL_HEIGHT = 2;
@@ -39,6 +40,15 @@ export class ServerGoal {
         pos = _pos;
         currentGoal = new TempColshapeCylinder(_pos, GOAL_RADIUS, GOAL_HEIGHT, 'goal');
         currentGoal.addCallback(ServerGoal.handleGoal);
+        ServerMarkers.create({
+            uid: 'goal',
+            pos,
+            color: new alt.RGBA(255, 0, 0, 100),
+            dir: new alt.Vector3(0, 0, 0),
+            rot: new alt.Vector3(0, 0, 0),
+            scale: new alt.Vector3(GOAL_RADIUS * 2, GOAL_RADIUS * 2, GOAL_HEIGHT),
+            type: 1,
+        });
     }
 
     /**
