@@ -7,6 +7,7 @@ import { ServerCollision } from './systems/collision';
 import { ServerCanister } from './systems/canister';
 import { ServerBlips } from './systems/blips';
 import { ServerPowerUp } from './systems/powerup';
+import { ServerGoal } from './systems/goal';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -21,6 +22,7 @@ class Main {
         ServerCanister.init(debug);
         ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
         ServerBlips.init();
+        ServerGoal.create(new alt.Vector3(SPAWN.x - 12, SPAWN.y, 22.44));
         ServerPowerUp.init();
         ReconnectHelper.invoke();
     }

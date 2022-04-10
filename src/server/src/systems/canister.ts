@@ -130,7 +130,7 @@ export class ServerCanister {
      */
     static pickup(player: alt.Player) {
         if (isUpdating) {
-            return;
+            return true;
         }
 
         isUpdating = true;
@@ -141,6 +141,7 @@ export class ServerCanister {
         owner = player;
         player.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, true);
         isUpdating = false;
+        return true;
     }
 
     static drop() {
