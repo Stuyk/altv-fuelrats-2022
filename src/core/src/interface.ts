@@ -9,3 +9,16 @@ export interface IMarker {
     scale: alt.Vector3;
     color: alt.RGBA;
 }
+
+export interface IMap {
+    maxScore: number;
+    roundTimer: number;
+    atmosphere: {
+        hour: number;
+        minute: number;
+        weather: number;
+    };
+    spawn: alt.Vector3;
+    canisters: Array<alt.IVector3 | alt.Vector3>;
+    goals: Array<alt.IVector3 | alt.Vector3>;
+}

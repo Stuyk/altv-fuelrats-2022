@@ -2,11 +2,12 @@ import { STREAM_SYNCED_META } from '@fuelrats/core';
 import { EVENT } from '@fuelrats/core/src/events';
 import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
+import { ServerMarkers } from './markers';
 
 const CANISTER_UID = 'canister';
 const TIME_BETWEEN_TRANSFERS = 500;
-const CANISTER_RADIUS = 2;
-const CANISTER_HEIGHT = 3;
+const CANISTER_RADIUS = 3;
+const CANISTER_HEIGHT = 4;
 
 let isUpdating = false;
 let nextTransferTime = Date.now() + TIME_BETWEEN_TRANSFERS;
@@ -98,8 +99,32 @@ export class ServerCanister {
             canister.remove();
         }
 
-        canister = new TempColshapeCylinder(_pos, CANISTER_RADIUS, CANISTER_HEIGHT, CANISTER_UID);
+        // Create one time use Canister pickup...
+        canister = new TempColshapeCylinder(
+            new alt.Vector3(pos.x, pos.y, pos.z - 1),
+            CANISTER_RADIUS,
+            CANISTER_HEIGHT,
+            CANISTER_UID
+        );
         canister.addCallback(ServerCanister.pickup);
+
+        // Create a server marker for the canister...
+        ServerMarkers.create({
+            uid: 'marker',
+            color: new alt.RGBA(255, 0, 0, 100),
+            dir: new alt.Vector3(0, 0, 0),
+            pos: new alt.Vector3(pos.x, pos.y, pos.z + 1),
+            rot: new alt.Vector3(0, 0, 0),
+            scale: new alt.Vector3(0.2, 0.2, 999),
+            type: 1,
+        });
+
+        alt.emitAllClients(
+            EVENT.TO_CLIENT.CANISTER.SPAWN,
+            new alt.Vector3(canister.pos.x, canister.pos.y, canister.pos.z + 1),
+            owner !== undefined ? owner : undefined
+        );
+
         isUpdating = false;
 
         if (debug) {
@@ -116,9 +141,12 @@ export class ServerCanister {
             return;
         }
 
-        alt.log(player);
-
-        alt.emitClient(player, EVENT.TO_CLIENT.CANISTER.SPAWN, canister.pos, owner?.valid ? owner : undefined);
+        alt.emitClient(
+            player,
+            EVENT.TO_CLIENT.CANISTER.SPAWN,
+            new alt.Vector3(canister.pos.x, canister.pos.y, canister.pos.z + 1),
+            owner?.valid ? owner : undefined
+        );
 
         if (debug) {
             alt.log(`[Debug] ${player.name} - Synchronizing canister for new player.`);
@@ -139,19 +167,26 @@ export class ServerCanister {
             alt.log(`[Debug] ${player.name} is trying to pickup canister`);
         }
 
+        ServerMarkers.remove('marker');
+
         owner = player;
         player.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, true);
         isUpdating = false;
         return true;
     }
 
-    static drop() {
-        owner = undefined;
-        ServerCanister.create(pos as alt.Vector3);
-    }
+    static drop(respawnCanister = true) {
+        if (owner && owner.valid) {
+            owner.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, false);
+        }
 
-    static destroy() {
-        //
+        owner = undefined;
+
+        if (!respawnCanister) {
+            return;
+        }
+
+        ServerCanister.create(pos as alt.Vector3);
     }
 
     static transfer(to: alt.Player) {

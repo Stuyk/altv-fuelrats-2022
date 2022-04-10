@@ -8,6 +8,7 @@ import { PowerUpBoost } from './powerups/boost';
 import { PowerUpJump } from './powerups/jump';
 import { FrontendSound } from './utility/sound';
 import { ClientMarkers } from './systems/markers';
+import { Console } from './utility/console';
 
 let debug = true;
 
@@ -27,6 +28,7 @@ class InternalFunctions {
         PowerUpBoost.init();
         PowerUpJump.init();
         // Debug Stuffs
+        Console.init();
         alt.onServer(EVENT.TO_CLIENT.LOG.CONSOLE, InternalFunctions.handleServerToClientLog);
     }
 

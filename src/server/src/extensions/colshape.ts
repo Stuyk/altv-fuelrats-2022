@@ -2,13 +2,15 @@ import * as alt from 'alt-server';
 
 export class TempColshapeCylinder extends alt.ColshapeCylinder {
     id: null | undefined | string;
+    private useVehicleCollision;
     private enterBind;
     private callback: ((player: alt.Player) => boolean) | undefined;
 
-    constructor(pos: alt.Vector3, radius: number, height: number, id: string) {
+    constructor(pos: alt.Vector3, radius: number, height: number, id: string, useVehicleCollision = true) {
         super(pos.x, pos.y, pos.z, radius, height);
         this.id = id;
         this.enterBind = this.handleEnterShape.bind(this);
+        this.useVehicleCollision = useVehicleCollision;
         alt.on('entityEnterColshape', this.enterBind);
         return this;
     }
@@ -50,8 +52,10 @@ export class TempColshapeCylinder extends alt.ColshapeCylinder {
             player = alt.Player.all.find((x) => `${x.id}` === `${entity.driver?.id}`);
         }
 
-        if (entity instanceof alt.Player && entity.valid) {
-            player = entity as alt.Player;
+        if (!this.useVehicleCollision) {
+            if (entity instanceof alt.Player && entity.valid) {
+                player = entity as alt.Player;
+            }
         }
 
         if (player === null || player === undefined) {

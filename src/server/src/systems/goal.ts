@@ -8,7 +8,7 @@ const GOAL_UID = 'goal';
 const GOAL_RADIUS = 3;
 const GOAL_HEIGHT = 2;
 
-const callbacks: Array<Function> = [];
+const callbacks: Array<(winner: alt.Player) => void> = [];
 let currentGoal: TempColshapeCylinder;
 let pos: alt.Vector3;
 let blip: alt.PointBlip;
@@ -19,7 +19,7 @@ export class ServerGoal {
      * The callback will be invoked when a goal is scored.
      * @param {Function} _callback - The function to be called when the user clicks the button.
      */
-    static init(_callback: Function) {
+    static addCallback(_callback: (winner: alt.Player) => void) {
         callbacks.push(_callback);
     }
 
@@ -39,11 +39,17 @@ export class ServerGoal {
         }
 
         pos = _pos;
-        currentGoal = new TempColshapeCylinder(_pos, GOAL_RADIUS, GOAL_HEIGHT, GOAL_UID);
+        currentGoal = new TempColshapeCylinder(
+            new alt.Vector3(pos.x, pos.y, pos.z - 1),
+            GOAL_RADIUS,
+            GOAL_HEIGHT,
+            GOAL_UID
+        );
+        
         currentGoal.addCallback(ServerGoal.handleGoal);
         ServerMarkers.create({
             uid: 'goal',
-            pos,
+            pos: new alt.Vector3(pos.x, pos.y, pos.z - 1),
             color: new alt.RGBA(255, 0, 0, 100),
             dir: new alt.Vector3(0, 0, 0),
             rot: new alt.Vector3(0, 0, 0),
@@ -67,13 +73,15 @@ export class ServerGoal {
             return false;
         }
 
+        ServerCanister.drop(false);
+        ServerMarkers.remove(GOAL_UID);
+
         if (callbacks.length >= 1) {
             for (let i = 0; i < callbacks.length; i++) {
-                callbacks[i]();
+                callbacks[i](player);
             }
         }
 
-        ServerMarkers.remove(GOAL_UID);
         alt.emitAllClients(EVENT.TO_CLIENT.SOUND.FRONTEND, 'Whistle', 'DLC_TG_Running_Back_Sounds');
         return true;
     }

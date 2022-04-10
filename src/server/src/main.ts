@@ -9,6 +9,7 @@ import { ServerBlips } from './systems/blips';
 import { ServerPowerUp } from './systems/powerup';
 import { ServerGoal } from './systems/goal';
 import { ServerMarkers } from './systems/markers';
+import { ServerRound } from './systems/round';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -20,11 +21,13 @@ class Main {
     static init() {
         alt.on('playerConnect', Main.playerConnect);
         ServerCollision.init(debug);
-        ServerCanister.init(debug);
-        ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
+        // ServerCanister.init(debug);
+        // ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
         ServerBlips.init();
-        ServerGoal.create(new alt.Vector3(SPAWN.x - 12, SPAWN.y, 22.44));
+        // ServerGoal.create(new alt.Vector3(SPAWN.x - 12, SPAWN.y, 22.44));
         ServerPowerUp.init();
+
+        ServerRound.init();
         ReconnectHelper.invoke();
     }
 
@@ -39,10 +42,10 @@ class Main {
             alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
             alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
 
-            new PlayerVehicle(player, 'karby', SPAWN);
             ServerCanister.sync(player);
             ServerPowerUp.refreshAllCooldowns(player);
             ServerMarkers.sync(player);
+            ServerRound.sync(player);
 
             player.setDateTime(24, 1, 1, 9, 0, 0);
         }, 2000);
