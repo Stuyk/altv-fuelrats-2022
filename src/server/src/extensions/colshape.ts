@@ -66,7 +66,7 @@ export class TempColshapeCylinder extends alt.ColshapeCylinder {
             return;
         }
 
-        if (!colshape.id || colshape.id !== 'canister') {
+        if (!colshape.id || colshape.id !== this.id) {
             return;
         }
 
