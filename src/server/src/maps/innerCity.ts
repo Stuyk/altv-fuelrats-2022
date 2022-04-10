@@ -1,13 +1,25 @@
-import * as alt from 'alt-server';
 import { IMap } from '@fuelrats/core';
+import * as alt from 'alt-server';
 
 export const InnerCityMap: IMap = {
     maxScore: 2,
     roundTimer: 60000 * 8,
-    atmosphere: {
-        hour: 12,
-        minute: 0,
-        weather: 5,
+    world: {
+        weatherId: alt.WeatherType.Xmas,
+
+        time: {
+            hour: 3,
+            freezeClock: true,
+        },
+        options: {
+            snowLevel: 5,
+            forceTrails: true,
+
+            windSpeed: 12, // 0 - 12
+            windDirection: 45,
+
+            freezeClock: true,
+        }
     },
     spawn: new alt.Vector3(-270.22418212890625, -1131.75830078125, 22.3883056640625),
     canisters: [

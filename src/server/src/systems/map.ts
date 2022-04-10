@@ -1,5 +1,6 @@
-import * as alt from 'alt-server';
 import { IMap } from '@fuelrats/core';
+import * as alt from 'alt-server';
+
 import { InnerCityMap } from '../maps/innerCity';
 
 const MAP_POOL = [InnerCityMap];
@@ -38,7 +39,7 @@ export class ServerMap {
 
         ServerMap.loadMap(MAP_POOL[mapIndex]);
 
-        // Update all player's atmosphere and weather.
+        // Update all player's world related stuff.
         alt.Player.all.forEach((player) => {
             ServerMap.sync(player);
         });
@@ -77,15 +78,6 @@ export class ServerMap {
     }
 
     static sync(player: alt.Player) {
-        player.setDateTime(
-            1,
-            1,
-            2022,
-            map.atmosphere.hour as alt.DateTimeHour,
-            map.atmosphere.minute as alt.DateTimeHour,
-            0 as alt.DateTimeHour
-        );
-
-        player.setWeather(map.atmosphere.weather);
+        player.emit("World:sync", map.world);
     }
 }

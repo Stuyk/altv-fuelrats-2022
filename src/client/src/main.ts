@@ -1,14 +1,16 @@
-import * as alt from 'alt-client';
 import { EVENT } from '@fuelrats/core';
+import * as alt from 'alt-client';
+
 import { WebViewController } from './extensions/view';
-import { ClientCanister } from './systems/canister';
-import { ClientCollision } from './systems/collision';
-import { PowerUp } from './systems/powerup';
 import { PowerUpBoost } from './powerups/boost';
 import { PowerUpJump } from './powerups/jump';
-import { FrontendSound } from './utility/sound';
+import { ClientCanister } from './systems/canister';
+import { ClientCollision } from './systems/collision';
 import { ClientMarkers } from './systems/markers';
+import { PowerUp } from './systems/powerup';
+import { WeatherSync } from './systems/weatherSync';
 import { Console } from './utility/console';
+import { FrontendSound } from './utility/sound';
 
 let debug = true;
 
@@ -27,6 +29,7 @@ class InternalFunctions {
         PowerUp.init();
         PowerUpBoost.init();
         PowerUpJump.init();
+        WeatherSync.init();
         // Debug Stuffs
         Console.init();
         alt.onServer(EVENT.TO_CLIENT.LOG.CONSOLE, InternalFunctions.handleServerToClientLog);
