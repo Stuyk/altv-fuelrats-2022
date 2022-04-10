@@ -14,18 +14,22 @@ export class ClientMarkers {
         alt.onServer(EVENT.TO_CLIENT.MARKER.REMOVE, ClientMarkers.remove);
     }
 
-    static create(marker: IMarker) {
+    static create(marker: IMarker | Array<IMarker>) {
         isUpdating = true;
 
-        const index = markers.findIndex((x) => x.uid === marker.uid);
-        if (index >= 0) {
-            markers[index] = marker;
+        if (Array.isArray(marker)) {
+            markers = marker;
         } else {
-            markers.push(marker);
-        }
+            const index = markers.findIndex((x) => x.uid === marker.uid);
+            if (index >= 0) {
+                markers[index] = marker;
+            } else {
+                markers.push(marker);
+            }
 
-        if (debug) {
-            alt.log(`Created Marker: \r\n ${JSON.stringify(marker, null, '\t')}`);
+            if (debug) {
+                alt.log(`Created Marker: \r\n ${JSON.stringify(marker, null, '\t')}`);
+            }
         }
 
         isUpdating = false;

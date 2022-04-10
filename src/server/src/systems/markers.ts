@@ -38,8 +38,6 @@ export class ServerMarkers {
      * @param player - alt.Player - The player to send the marker to.
      */
     static sync(player: alt.Player) {
-        for (let i = 0; i < markers.length; i++) {
-            alt.emitClient(player, EVENT.TO_CLIENT.MARKER.CREATE, markers[i]);
-        }
+        alt.emitClient(player, EVENT.TO_CLIENT.MARKER.CREATE, markers);
     }
 }
