@@ -43,6 +43,8 @@ class Main {
             ServerCanister.sync(player);
             ServerPowerUp.refreshAllCooldowns(player);
             ServerMarkers.sync(player);
+
+            player.setDateTime(24, 1, 1, 9, 0, 0);
         }, 2000);
     }
 }

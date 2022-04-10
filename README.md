@@ -106,7 +106,9 @@ _Demonstrates Collision + Canister Behavior_
 - [x] Goal Create
 - [x] Goal Blip Sync 
 - [x] Goal Whistle Noise
-- [ ] Marker Shown to Distant Players
+- [x] Marker Shown to Distant Players
+
+![](https://thumbs.gfycat.com/DismalAcceptableFrogmouth-size_restricted.gif)
 
 ### Rounds
 

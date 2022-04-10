@@ -4,6 +4,7 @@ import { TempColshapeCylinder } from '../extensions/colshape';
 import { ServerCanister } from './canister';
 import { ServerMarkers } from './markers';
 
+const GOAL_UID = 'goal';
 const GOAL_RADIUS = 3;
 const GOAL_HEIGHT = 2;
 
@@ -38,7 +39,7 @@ export class ServerGoal {
         }
 
         pos = _pos;
-        currentGoal = new TempColshapeCylinder(_pos, GOAL_RADIUS, GOAL_HEIGHT, 'goal');
+        currentGoal = new TempColshapeCylinder(_pos, GOAL_RADIUS, GOAL_HEIGHT, GOAL_UID);
         currentGoal.addCallback(ServerGoal.handleGoal);
         ServerMarkers.create({
             uid: 'goal',
@@ -72,6 +73,7 @@ export class ServerGoal {
             }
         }
 
+        ServerMarkers.remove(GOAL_UID);
         alt.emitAllClients(EVENT.TO_CLIENT.SOUND.FRONTEND, 'Whistle', 'DLC_TG_Running_Back_Sounds');
         return true;
     }

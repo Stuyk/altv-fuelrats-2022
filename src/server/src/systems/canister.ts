@@ -3,6 +3,7 @@ import { EVENT } from '@fuelrats/core/src/events';
 import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
 
+const CANISTER_UID = 'canister';
 const TIME_BETWEEN_TRANSFERS = 500;
 const CANISTER_RADIUS = 2;
 const CANISTER_HEIGHT = 3;
@@ -97,7 +98,7 @@ export class ServerCanister {
             canister.remove();
         }
 
-        canister = new TempColshapeCylinder(_pos, CANISTER_RADIUS, CANISTER_HEIGHT, 'canister');
+        canister = new TempColshapeCylinder(_pos, CANISTER_RADIUS, CANISTER_HEIGHT, CANISTER_UID);
         canister.addCallback(ServerCanister.pickup);
         isUpdating = false;
 
