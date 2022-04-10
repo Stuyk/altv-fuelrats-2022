@@ -6,5 +6,7 @@ export const SYNCED_META = {
     },
     VEHICLE: {
         POS: 'vehicle:pos',
+        FREEZE_ON: 'vehicle:freeze',
+        COLLISION_OFF: 'vehicle:collision',
     },
 };

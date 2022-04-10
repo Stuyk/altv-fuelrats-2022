@@ -3,7 +3,7 @@
     "host": "0.0.0.0",
     "env": "devtest",
     "port": 7788,
-    "players": 1,
+    "players": 16,
     "password": null,
     "token": null,
     "announce": false,
@@ -22,6 +22,8 @@
     ],
     "resources": [
         "karby",
+        "mapcoastal",
+        "mapinnercity",
         "webview",
         "core"
     ],

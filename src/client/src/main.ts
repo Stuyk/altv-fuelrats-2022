@@ -30,6 +30,10 @@ class InternalFunctions {
         // Debug Stuffs
         Console.init();
         alt.onServer(EVENT.TO_CLIENT.LOG.CONSOLE, InternalFunctions.handleServerToClientLog);
+
+        alt.on('connectionComplete', () => {
+            alt.emitServer('connect');
+        });
     }
 
     static handleServerToClientLog(message: string) {

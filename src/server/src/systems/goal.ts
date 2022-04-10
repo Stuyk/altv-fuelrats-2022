@@ -3,6 +3,7 @@ import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
 import { ServerCanister } from './canister';
 import { ServerMarkers } from './markers';
+import { ServerRound } from './round';
 
 const GOAL_UID = 'goal';
 const GOAL_RADIUS = 3;
@@ -45,7 +46,7 @@ export class ServerGoal {
             GOAL_HEIGHT,
             GOAL_UID
         );
-        
+
         currentGoal.addCallback(ServerGoal.handleGoal);
         ServerMarkers.create({
             uid: 'goal',
@@ -64,6 +65,10 @@ export class ServerGoal {
      * @returns The return value is a boolean.
      */
     static handleGoal(player: alt.Player) {
+        if (ServerRound.isUpdating()) {
+            return false;
+        }
+
         const owner = ServerCanister.getOwnerId();
         if (owner === -1) {
             return false;

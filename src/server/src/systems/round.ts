@@ -1,11 +1,14 @@
+import { EVENT, SYNCED_META } from '@fuelrats/core';
 import * as alt from 'alt-server';
 import { PlayerVehicle } from '../extensions/vehicle';
 import { ServerCanister } from './canister';
 import { ServerGoal } from './goal';
 import { ServerMap } from './map';
+import { ServerPowerUp } from './powerup';
 
 let debug = false;
 let roundFinishTime: number;
+let isUpdatingRound: boolean = false;
 let scores: { [key: string]: number } = {};
 
 export class ServerRound {
@@ -22,13 +25,27 @@ export class ServerRound {
         ServerRound.next(null);
     }
 
-    static next(winner: alt.Player | null) {
+    static isUpdating(): boolean {
+        return isUpdatingRound;
+    }
+
+    static async next(winner: alt.Player | null) {
+        if (isUpdatingRound) {
+            return;
+        }
+
+        isUpdatingRound = true;
+
+        ServerMap.randomizeVehicle();
+
         if (winner) {
             if (!scores[winner.id]) {
                 scores[winner.id] = 1;
             } else {
                 scores[winner.id] += 1;
             }
+
+            isUpdatingRound = false;
 
             if (scores[winner.id] >= ServerMap.getMaxScore()) {
                 scores = {};
@@ -44,7 +61,6 @@ export class ServerRound {
 
         const canister = ServerMap.getCanister();
         const goal = ServerMap.getGoal();
-        const spawn = ServerMap.getSpawn();
 
         roundFinishTime = Date.now() + ServerMap.getRoundTime();
 
@@ -56,16 +72,41 @@ export class ServerRound {
                 return;
             }
 
-            player.vehicle.pos = new alt.Vector3(spawn.x, spawn.y, spawn.z);
+            ServerRound.sync(player);
+            player.setSyncedMeta(SYNCED_META.VEHICLE.COLLISION_OFF, true);
+            player.setSyncedMeta(SYNCED_META.VEHICLE.FREEZE_ON, true);
         });
 
-        // Start countdown here...
+        await new Promise((resolve: Function) => {
+            alt.setTimeout(() => {
+                resolve();
+            }, 2000);
+        });
+
+        isUpdatingRound = false;
+
+        alt.setTimeout(() => {
+            alt.emitAllClients(EVENT.TO_CLIENT.SOUND.FRONTEND, 'Event_Start_Text', 'GTAO_FM_Events_Soundset');
+
+            alt.Player.all.forEach((player) => {
+                if (!player || !player.valid || !player.vehicle) {
+                    return;
+                }
+
+                player.setSyncedMeta(SYNCED_META.VEHICLE.FREEZE_ON, false);
+                ServerPowerUp.refreshAllCooldowns(player);
+            });
+        }, 3000);
     }
 
     static async sync(player: alt.Player) {
         const spawn = ServerMap.getSpawn();
 
-        new PlayerVehicle(player, 'infernus', new alt.Vector3(spawn.x, spawn.y, spawn.z));
+        if (player.vehicle && player.vehicle instanceof PlayerVehicle) {
+            await player.vehicle.remove();
+        }
+
+        await new PlayerVehicle(player, ServerMap.getVehicle(), new alt.Vector3(spawn.x, spawn.y, spawn.z));
 
         await new Promise((resolve: Function) => {
             const interval = alt.setInterval(() => {

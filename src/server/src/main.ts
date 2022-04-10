@@ -10,6 +10,8 @@ import { ServerPowerUp } from './systems/powerup';
 import { ServerGoal } from './systems/goal';
 import { ServerMarkers } from './systems/markers';
 import { ServerRound } from './systems/round';
+import { ServerDeath } from './events/death';
+import { ServerMap } from './systems/map';
 
 alt.log(`alt:V Server - Boilerplate Started`);
 
@@ -19,9 +21,11 @@ let debug = true;
 
 class Main {
     static init() {
-        alt.on('playerConnect', Main.playerConnect);
+        alt.onClient('connect', Main.playerConnect);
+        ServerDeath.init();
+        //
         ServerCollision.init(debug);
-        // ServerCanister.init(debug);
+        ServerCanister.init(debug);
         // ServerCanister.create(new alt.Vector3(SPAWN.x - 6, SPAWN.y, 22.44));
         ServerBlips.init();
         // ServerGoal.create(new alt.Vector3(SPAWN.x - 12, SPAWN.y, 22.44));
@@ -31,24 +35,45 @@ class Main {
         ReconnectHelper.invoke();
     }
 
-    static playerConnect(player: alt.Player) {
+    static async playerConnect(player: alt.Player) {
         alt.log(`[${player.id}] ${player.name} has connected to the server.`);
 
-        alt.setTimeout(() => {
-            if (!player || !player.valid) {
-                return;
-            }
+        await player.spawn(ServerMap.getSpawn().x, ServerMap.getSpawn().y, ServerMap.getSpawn().z);
 
-            alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
-            alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
+        const isReady = await new Promise((resolve: Function) => {
+            const interval = alt.setInterval(() => {
+                if (player && !player.valid) {
+                    return;
+                }
 
-            ServerCanister.sync(player);
-            ServerPowerUp.refreshAllCooldowns(player);
-            ServerMarkers.sync(player);
-            ServerRound.sync(player);
+                if (!player) {
+                    alt.clearInterval(interval);
+                    resolve(false);
+                    return;
+                }
 
-            player.setDateTime(24, 1, 1, 9, 0, 0);
-        }, 2000);
+                alt.clearInterval(interval);
+                resolve(true);
+            }, 200);
+        });
+
+        if (!isReady) {
+            return;
+        }
+
+        if (!player || !player.valid) {
+            return;
+        }
+
+        alt.emitClient(player, EVENT.TO_CLIENT.LOG.CONSOLE, 'Fuel Rats - Connected');
+        alt.emitClient(player, EVENT.TO_CLIENT.WEBVIEW.SET_URL, ConfigHelper.getWebviewPath());
+
+        await ServerCanister.sync(player);
+        await ServerPowerUp.refreshAllCooldowns(player);
+        await ServerMarkers.sync(player);
+        await ServerRound.sync(player);
+
+        player.setDateTime(24, 1, 1, 9, 0, 0);
     }
 }
 

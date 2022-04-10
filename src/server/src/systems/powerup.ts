@@ -25,6 +25,8 @@ const SOUNDS = {
     },
 };
 
+let timeouts: { [playerid: string]: { [metaname: string]: number } } = {};
+
 export class ServerPowerUp {
     static init() {
         alt.onClient(EVENT.TO_SERVER.POWERUP.USE, ServerPowerUp.usePowerUp);
@@ -36,6 +38,18 @@ export class ServerPowerUp {
      * @param player - alt.Player - The player to refresh the cooldowns for.
      */
     static refreshAllCooldowns(player: alt.Player) {
+        if (timeouts[player.id]) {
+            if (timeouts[player.id][SYNCED_META.PLAYER.BOOST_AVAILABLE]) {
+                alt.clearTimeout(timeouts[player.id][SYNCED_META.PLAYER.BOOST_AVAILABLE]);
+                delete timeouts[player.id][SYNCED_META.PLAYER.BOOST_AVAILABLE];
+            }
+
+            if (timeouts[player.id][SYNCED_META.PLAYER.JUMP_AVAILABLE]) {
+                alt.clearTimeout(timeouts[player.id][SYNCED_META.PLAYER.JUMP_AVAILABLE]);
+                delete timeouts[player.id][SYNCED_META.PLAYER.JUMP_AVAILABLE];
+            }
+        }
+
         Object.keys(COOLDOWNS).forEach((key) => {
             player.setSyncedMeta(key, true);
         });
@@ -48,6 +62,10 @@ export class ServerPowerUp {
      * @param {string} syncedMetaName - The name of the synced meta you want to use.
      */
     static usePowerUp(player: alt.Player, syncedMetaName: string) {
+        if (timeouts[player.id] && timeouts[player.id][syncedMetaName]) {
+            return;
+        }
+
         const ms = COOLDOWNS[syncedMetaName] ? COOLDOWNS[syncedMetaName] : 10000;
 
         if (SOUNDS[syncedMetaName].USE) {
@@ -60,7 +78,12 @@ export class ServerPowerUp {
         }
 
         player.setSyncedMeta(syncedMetaName, false);
-        alt.setTimeout(() => {
+
+        if (!timeouts[player.id]) {
+            timeouts[player.id] = {};
+        }
+
+        timeouts[player.id][syncedMetaName] = alt.setTimeout(() => {
             if (!player || !player.valid) {
                 return;
             }
@@ -74,6 +97,7 @@ export class ServerPowerUp {
                 );
             }
 
+            delete timeouts[player.id][syncedMetaName];
             player.setSyncedMeta(syncedMetaName, true);
         }, ms);
     }

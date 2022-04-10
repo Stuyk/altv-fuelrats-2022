@@ -3,10 +3,26 @@ import { IMap } from '@fuelrats/core';
 import { InnerCityMap } from '../maps/innerCity';
 
 const MAP_POOL = [InnerCityMap];
+const VALID_VEHICLES = [
+    'karby',
+    'visione',
+    'prototipo',
+    'xa21',
+    'tyrus',
+    'turismor',
+    'tempesta',
+    't20',
+    'reaper',
+    'le7b',
+    'osiris',
+    'banshee2',
+    'pfister811',
+];
 
 let map: IMap;
 let mapIndex = -1;
 let currentRound = 0;
+let currentVehicleIndex = 0;
 
 export class ServerMap {
     static nextMap() {
@@ -50,6 +66,14 @@ export class ServerMap {
 
     static getRoundTime(): number {
         return map.roundTimer;
+    }
+
+    static randomizeVehicle() {
+        currentVehicleIndex = Math.floor(Math.random() * VALID_VEHICLES.length);
+    }
+
+    static getVehicle(): string {
+        return VALID_VEHICLES[currentVehicleIndex];
     }
 
     static sync(player: alt.Player) {

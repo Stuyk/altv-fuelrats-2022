@@ -1,11 +1,12 @@
-import { STREAM_SYNCED_META } from '@fuelrats/core';
+import { STREAM_SYNCED_META, SYNCED_META } from '@fuelrats/core';
 import { EVENT } from '@fuelrats/core/src/events';
 import * as alt from 'alt-server';
 import { TempColshapeCylinder } from '../extensions/colshape';
 import { ServerMarkers } from './markers';
+import { ServerRound } from './round';
 
 const CANISTER_UID = 'canister';
-const TIME_BETWEEN_TRANSFERS = 500;
+const TIME_BETWEEN_TRANSFERS = 1000;
 const CANISTER_RADIUS = 3;
 const CANISTER_HEIGHT = 4;
 
@@ -16,6 +17,10 @@ let pos: alt.Vector3 | undefined;
 let owner: alt.Player | undefined;
 let debug = false;
 let blip: alt.PointBlip | undefined;
+
+let r = 0;
+let g = 0;
+let b = 0;
 
 export class ServerCanister {
     static init(_debug: boolean = false) {
@@ -32,9 +37,28 @@ export class ServerCanister {
     }
 
     static checkCanister() {
+        // Rainbow Vehicle
+        const curtime = Date.now() / 1000;
+
+        r = Math.floor(Math.sin(curtime * 0.5 + 0) * 127 + 128);
+        g = Math.floor(Math.sin(curtime * 0.5 + 2) * 127 + 128);
+        b = Math.floor(Math.sin(curtime * 0.5 + 4) * 127 + 128);
+
+        // console.log(`R: ${r}, G: ${g}, B: ${b}`);
+
+        if (!owner) {
+            return;
+        }
+
         if (owner && !owner.valid) {
             isUpdating = true;
             ServerCanister.drop();
+            return;
+        }
+
+        if (owner.vehicle) {
+            owner.vehicle.customPrimaryColor = new alt.RGBA(r, g, b, 255);
+            owner.vehicle.customSecondaryColor = new alt.RGBA(r, g, b, 255);
         }
     }
 
@@ -113,7 +137,7 @@ export class ServerCanister {
             uid: 'marker',
             color: new alt.RGBA(255, 0, 0, 100),
             dir: new alt.Vector3(0, 0, 0),
-            pos: new alt.Vector3(pos.x, pos.y, pos.z + 1),
+            pos: new alt.Vector3(pos.x, pos.y, pos.z + 2),
             rot: new alt.Vector3(0, 0, 0),
             scale: new alt.Vector3(0.2, 0.2, 999),
             type: 1,
@@ -158,6 +182,10 @@ export class ServerCanister {
      * @param player - alt.Player - The player that is trying to pickup the canister.
      */
     static pickup(player: alt.Player) {
+        if (ServerRound.isUpdating()) {
+            return false;
+        }
+
         if (isUpdating) {
             return true;
         }
@@ -168,6 +196,14 @@ export class ServerCanister {
         }
 
         ServerMarkers.remove('marker');
+
+        alt.Player.all.forEach((player) => {
+            if (!player.vehicle) {
+                return;
+            }
+
+            player.setSyncedMeta(SYNCED_META.VEHICLE.COLLISION_OFF, false);
+        });
 
         owner = player;
         player.setStreamSyncedMeta(STREAM_SYNCED_META.PLAYER.HAS_CANISTER, true);

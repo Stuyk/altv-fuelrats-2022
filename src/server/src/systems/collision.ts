@@ -36,7 +36,15 @@ export class ServerCollision {
             return;
         }
 
-        ServerCanister.transfer(player.id === ownerId ? target : player);
+        const transferTo = player.id === ownerId ? target : player;
+        const uncolor = player.id === ownerId ? player : target;
+
+        if (uncolor.vehicle) {
+            uncolor.vehicle.customPrimaryColor = new alt.RGBA(255, 192, 203, 255);
+            uncolor.vehicle.customSecondaryColor = new alt.RGBA(255, 192, 203, 255);
+        }
+
+        ServerCanister.transfer(transferTo);
     }
 
     /**
@@ -44,6 +52,9 @@ export class ServerCollision {
      * @param player - alt.Player - The player whose vehicle should be repaired.
      */
     static repair(player: alt.Player) {
+        player.health = 199;
+        player.armour = 199;
+
         if (!player.vehicle) {
             return;
         }
