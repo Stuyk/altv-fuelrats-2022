@@ -13,11 +13,24 @@ export interface IMarker {
 export interface IMap {
     maxScore: number;
     roundTimer: number;
-    atmosphere: {
-        hour: number;
-        minute: number;
-        weather: number;
-    };
+    world?: Partial<{
+        weatherId: number;
+
+        time: Partial<{
+            hour: number;
+            minute: number;
+            freezeClock: boolean;
+        }>,
+        options: Partial<{
+            snowLevel: number;
+            forceTrails: boolean;
+
+            windSpeed: number;
+            windDirection: number;
+
+            freezeClock: boolean;
+        }>
+    }>,
     spawn: alt.Vector3;
     canisters: Array<alt.IVector3 | alt.Vector3>;
     goals: Array<alt.IVector3 | alt.Vector3>;
