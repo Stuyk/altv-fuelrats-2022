@@ -29,6 +29,15 @@ export class PlayerVehicle extends alt.Vehicle {
         player.model = 'mp_m_freemode_01';
         player.spawn(position.x, position.y, position.z, 0);
 
+        alt.nextTick(() => {
+            player.setProp(0, 18, 0);
+            player.setClothes(4, 34, 0, 2);
+            player.setClothes(6, 25, 0, 2);
+            player.setClothes(8, 15, 0, 2);
+            player.setClothes(11, 243, 0, 2);
+            player.setClothes(15, 96, 0, 2);
+        });
+
         this.ownerName = player.name;
         this.owner = player.id;
         this.engineOn = true;
