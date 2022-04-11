@@ -12,39 +12,8 @@ let lastRay;
 
 export class ClientCollision {
     static init(_debug: boolean = false) {
-        alt.on('syncedMetaChange', ClientCollision.collisionChange);
-        alt.setInterval(ClientCollision.tick, 0);
         debug = _debug;
-    }
-
-    static collisionChange(entity: alt.Entity, key: string, value: any, oldValue: any) {
-        if (!(entity instanceof alt.Player)) {
-            return;
-        }
-
-        let isValid = false;
-
-        for (let i = 0; i < METAS.length; i++) {
-            if (key !== METAS[i]) {
-                continue;
-            }
-
-            alt.log('found valid...');
-            isValid = true;
-            break;
-        }
-
-        if (!isValid) {
-            return;
-        }
-
-        console.log(key);
-        console.log(SYNCED_META.VEHICLE.FREEZE_ON);
-        if (key === SYNCED_META.VEHICLE.FREEZE_ON) {
-            if (alt.Player.local.vehicle) {
-                native.freezeEntityPosition(alt.Player.local.vehicle.scriptID, value);
-            }
-        }
+        alt.setInterval(ClientCollision.tick, 0);
     }
 
     /**
@@ -55,28 +24,6 @@ export class ClientCollision {
         if (!alt.Player.local.vehicle) {
             return;
         }
-
-        alt.Player.all.forEach((player) => {
-            if (!player || !player.vehicle || !player.valid) {
-                return;
-            }
-
-            if (player.id === alt.Player.local.id) {
-                return;
-            }
-
-            if (player.getSyncedMeta(SYNCED_META.VEHICLE.FREEZE_ON)) {
-                native.freezeEntityPosition(player.vehicle.scriptID, true);
-            } else {
-                native.freezeEntityPosition(player.vehicle.scriptID, false);
-            }
-
-            if (player.getSyncedMeta(SYNCED_META.VEHICLE.COLLISION_OFF)) {
-                native.setEntityCollision(player.vehicle.scriptID, false, false);
-            } else {
-                native.setEntityCollision(player.vehicle.scriptID, true, true);
-            }
-        });
 
         if (Date.now() < nextCheck) {
             return;
